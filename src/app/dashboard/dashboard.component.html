@@ -1,0 +1,85 @@
+<br/><br/>
+<div class="container-fluid">
+  <div class="row justify-content-md-center">
+    <div class="col-md-4">
+      <button class="btn btn-block btn-primary bg-btn" (click)="open(note_modal)">Add Note</button>
+    </div>
+  </div>
+  <div class="row flex-row" style="margin-top:10px;">
+    <div class="col-md-3" *ngFor="let note of noteList;">
+      <div class="card" style="background-color:{{note.color}}; margin-bottom:10px;">
+        <div class="card-body">
+          <h5 class="card-title">{{note.title}}</h5>
+          <p class="card-text">{{note.description}}</p>
+        </div>
+          <div class="card-footer text-muted">
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-secondary btn-white" (click)="edit_note(note.id, note.title, note.description, edit_note_modal)">Edit</button>
+              <button type="button" class="btn btn-secondary btn-white" (click)="delete_note(note.id)">Delete</button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #note_modal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add Note</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form #todoForm="ngForm" (ngSubmit)="onSubmit(todoForm)">
+  <div class="modal-body">
+
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Title"
+        name="noteTitle" [(ngModel)]="formClass.noteTitle"
+        />
+        <span class="error" *ngIf="titleError!=''">{{titleError}}</span>
+      </div>
+      <div class="form-group">
+        <textarea class="form-control" name="noteDetails" [(ngModel)]="formClass.noteDetails"></textarea>
+        <span class="error" *ngIf="detailsError!=''">{{detailsError}}</span>
+      </div>
+    <div class="form-group">
+      <input type="radio" name="color" id="white" value="#ffffff" [(ngModel)]="formClass.noteColor"/>
+      <label for="white"><span class="white"></span></label>
+      <input type="radio" name="color" id="red" value="#ff0000"  [(ngModel)]="formClass.noteColor"/>
+      <label for="red"><span class="red"></span></label>
+      <input type="radio" name="color" id="blue" value="#87ceeb" [(ngModel)]="formClass.noteColor"/>
+      <label for="blue"><span class="blue"></span></label>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-outline-dark">Save</button>
+  </div>
+  </form>
+</ng-template>
+
+<ng-template #edit_note_modal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit Note</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #todoForm="ngForm" (ngSubmit)="onEdit(todoForm, updateId)">
+      <div class="form-group">
+         <input type="text" class="form-control" placeholder="Title"
+        name="noteTitle" [(ngModel)]="formClass.noteTitle"
+        />
+        <span class="error" *ngIf="titleError!=''">{{titleError}}</span>
+      </div>
+      <div class="form-group">
+        <textarea class="form-control" name="noteDetails" [(ngModel)]="formClass.noteDetails"></textarea>
+        <span class="error" *ngIf="detailsError!=''">{{detailsError}}</span>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-dark">Update</button>
+    </div>
+    </form>
+  </div>
